@@ -34,18 +34,11 @@ impl LinkedList {
 
     pub fn pop(&mut self) -> Option<u32> {
 
-        match self.tail.take() {
-            Some(value) => {
-
-                /* we have to move the whole node out of the box */
-                let node = *value;
-                self.tail = node.next;
-                Some(node.data)
-            },
-            None => {
-                None
-            }
-        }
+        self.tail.take().map(|value| {
+            let node = *value;
+            self.tail = node.next;
+            node.data
+        })
     }
 
     pub fn drop(&mut self) {
