@@ -13,11 +13,25 @@ mod ll {
         Nothing,
         Something(Box<Node>),
     }
+
+    impl LinkedList {
+
+        pub fn new() -> Self {
+            LinkedList {
+                tail: Link::Nothing,
+            }
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
+
     #[test]
-    fn it_works() {
+    fn test_create() {
+
+        use ll;
+
+        let list = ll::LinkedList::new();
     }
 }
