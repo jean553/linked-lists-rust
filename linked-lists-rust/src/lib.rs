@@ -91,9 +91,27 @@ mod tests {
         let mut list = ll::LinkedList::new();
         list.insert(10);
         list.insert(20);
+        list.insert(30);
+        list.insert(40);
 
-        assert_eq!(list.pop(), Some(20), "20 expected !");
-        assert_eq!(list.pop(), Some(10), "10 expected !");
-        assert_eq!(list.pop(), None, "Supposed to be none");
+        assert_eq!(
+            list.pop(),
+            Some(40),
+            "40 expected !"
+        );
+
+        assert_eq!(
+            list.pop(),
+            Some(30),
+            "30 expected !"
+        );
+
+        list.drop();
+
+        assert_eq!(
+            list.pop(),
+            None,
+            "None is expected !"
+        );
     }
 }
