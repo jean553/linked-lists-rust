@@ -58,6 +58,25 @@ mod ll {
                 }
             }
         }
+
+        pub fn drop(&mut self) {
+
+            /* get the value of the tail node and replace it by Nothing at self.tail */
+            let mut current = mem::replace(&mut self.tail, Link::Nothing);
+
+            /* we get the wrapped node for every iteration;
+               create a scope for the wrapped node to delete */
+            while let Link::Something(mut to_delete) = current {
+
+                /* the current value used for iteration now contains
+                   the next node of the current node to delete;
+                   the next parameter of the current node to delete
+                   is now equal to Nothing */
+                current = mem::replace(&mut to_delete.next, Link::Nothing);
+
+                /* to_delete goes out of the scope and is deleted */
+            }
+        }
     }
 }
 
