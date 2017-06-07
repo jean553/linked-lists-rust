@@ -71,6 +71,12 @@ mod tests {
 
         use ll;
 
-        let list = ll::LinkedList::new();
+        let mut list = ll::LinkedList::new();
+        list.insert(10);
+        list.insert(20);
+
+        assert_eq!(list.pop(), Some(20), "20 expected !");
+        assert_eq!(list.pop(), Some(10), "10 expected !");
+        assert_eq!(list.pop(), None, "Supposed to be none");
     }
 }
