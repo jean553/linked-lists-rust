@@ -41,6 +41,23 @@ mod ll {
 
             self.tail = Link::Something(node);
         }
+
+        pub fn pop(&mut self) -> Option<u32> {
+            /* take the value inside self.tail without borrowing,
+               insert Link::Nothing inside */
+            match mem::replace(&mut self.tail, Link::Nothing) {
+                Link::Something(value) => {
+
+                    /* we have to move the whole node out of the box */
+                    let node = *value;
+                    self.tail = node.next;
+                    Some(node.data)
+                },
+                Link::Nothing => {
+                    None
+                }
+            }
+        }
     }
 }
 
@@ -52,6 +69,12 @@ mod tests {
 
         use ll;
 
-        let list = ll::LinkedList::new();
+        let mut list = ll::LinkedList::new();
+        list.insert(10);
+        list.insert(20);
+
+        assert_eq!(list.pop(), Some(20), "20 expected !");
+        assert_eq!(list.pop(), Some(10), "10 expected !");
+        assert_eq!(list.pop(), None, "Supposed to be none");
     }
 }
