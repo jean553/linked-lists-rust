@@ -1,5 +1,7 @@
 mod ll {
 
+    use std::mem;
+
     pub struct LinkedList {
         tail: Link
     }
@@ -20,6 +22,19 @@ mod ll {
             LinkedList {
                 tail: Link::Nothing,
             }
+        }
+
+        pub fn insert(
+            &mut self,
+            data: u32
+        ) {
+
+            let node = Box::new(Node {
+                data: data,
+                next: mem::replace(&mut self.tail, Link::Nothing)
+            });
+
+            self.tail = Link::Something(node);
         }
     }
 }
