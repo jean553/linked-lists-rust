@@ -41,6 +41,25 @@ mod ll {
 
             self.tail = Link::Something(node);
         }
+
+        pub fn pop(&mut self) -> Option<u32> {
+
+            let result: Option<u32>;
+
+            /* take the value inside self.tail without borrowing,
+               insert Link::Nothing inside */
+            match mem::replace(&mut self.tail, Link::Nothing) {
+                Link::Something(value) => {
+                    result = Some(value.data);
+                    self.tail = value.next;
+                },
+                Link::Nothing => {
+                    result = None;
+                }
+            };
+
+            result
+        }
     }
 }
 
