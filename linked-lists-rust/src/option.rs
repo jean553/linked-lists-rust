@@ -1,17 +1,15 @@
 use std::mem;
 
-pub struct LinkedList {
-    tail: Link
+pub struct LinkedList<T> {
+    tail: Option<Box<Node<T>>>
 }
 
-struct Node {
-    data: u32,
-    next: Link,
+struct Node<T> {
+    data: T,
+    next: Option<Box<Node<T>>>,
 }
 
-type Link = Option<Box<Node>>;
-
-impl LinkedList {
+impl<T> LinkedList<T> {
 
     pub fn new() -> Self {
         LinkedList {
@@ -21,7 +19,7 @@ impl LinkedList {
 
     pub fn insert(
         &mut self,
-        data: u32
+        data: T
     ) {
 
         let node = Box::new(Node {
@@ -32,7 +30,7 @@ impl LinkedList {
         self.tail = Some(node);
     }
 
-    pub fn pop(&mut self) -> Option<u32> {
+    pub fn pop(&mut self) -> Option<T> {
 
         self.tail.take().map(|value| {
             let node = *value;
