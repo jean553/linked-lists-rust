@@ -1,7 +1,7 @@
 use std::mem;
 
 pub struct LinkedList<T> {
-    tail: Option<Box<Node<T>>>
+    head: Option<Box<Node<T>>>
 }
 
 struct Node<T> {
@@ -13,8 +13,20 @@ impl<T> LinkedList<T> {
 
     pub fn new() -> Self {
         LinkedList {
-            tail: None,
+            head: None,
         }
+    }
+
+    pub fn peek(&self) -> Option<&T> {
+
+        /* without as_ref(), the self.head value is taken;
+           so return a reference is impossible because the reference
+           would concern the taken value, which does no longer exist
+           when the function is terminated; as_ref() let us use
+           a reference of the self.head value */
+        self.head.as_ref().map( |value| {
+            &value.data
+        })
     }
 
     pub fn insert(
@@ -24,25 +36,25 @@ impl<T> LinkedList<T> {
 
         let node = Box::new(Node {
             data: data,
-            next: self.tail.take()
+            next: self.head.take()
         });
 
-        self.tail = Some(node);
+        self.head = Some(node);
     }
 
     pub fn pop(&mut self) -> Option<T> {
 
-        self.tail.take().map(|value| {
+        self.head.take().map(|value| {
             let node = *value;
-            self.tail = node.next;
+            self.head = node.next;
             node.data
         })
     }
 
     pub fn drop(&mut self) {
 
-        /* get the value of the tail node and replace it by None at self.tail */
-        let mut current = self.tail.take();
+        /* get the value of the head node and replace it by None at self.head */
+        let mut current = self.head.take();
 
         /* we get the wrapped node for every iteration;
            create a scope for the wrapped node to delete */
@@ -91,6 +103,15 @@ mod tests {
             list.pop(),
             None,
             "None is expected !"
+        );
+
+        list.insert(100);
+        list.insert(200);
+
+        assert_eq!(
+            list.peek(),
+            Some(&200),
+            "200 is expected"
         );
     }
 }
