@@ -104,5 +104,14 @@ mod tests {
             None,
             "None is expected !"
         );
+
+        list.insert(100);
+        list.insert(200);
+
+        assert_eq!(
+            list.peek(),
+            Some(&200),
+            "200 is expected"
+        );
     }
 }
