@@ -17,6 +17,18 @@ impl<T> LinkedList<T> {
         }
     }
 
+    pub fn peek(&self) -> Option<&T> {
+
+        /* without as_ref(), the self.tail value is taken;
+           so return a reference is impossible because the reference
+           would concern the taken value, which does no longer exist
+           when the function is terminated; as_ref() let us use
+           a reference of the self.tail value */
+        self.tail.as_ref().map( |value| {
+            &value.data
+        })
+    }
+
     pub fn insert(
         &mut self,
         data: T
